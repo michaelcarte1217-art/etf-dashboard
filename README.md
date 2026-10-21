@@ -6,8 +6,13 @@
 
 ## 在线 Demo
 
-- WorkBuddy 托管平台：见仓库发布记录 / 作品集官网「作品」卡片（上线后回填链接）
-- GitHub Pages：`https://<用户名>.github.io/etf-dashboard/`（待仓库创建后启用）
+### 👉 https://michaelcarte1217-art.github.io/etf-dashboard/
+
+- 托管：GitHub Pages（由本仓库 Actions 自动部署，推 `main` 即更新）
+- 仓库：https://github.com/michaelcarte1217-art/etf-dashboard
+- 找地址的其他入口：仓库首页右侧 **Deployments → github-pages**；
+  或 **Settings → Pages**（页面顶部显示 "Your site is live at …"）；
+  或 Actions 里最近一次 **Deploy Dashboard** 运行的 `deploy-pages` 步骤日志
 
 ## 功能特性
 
