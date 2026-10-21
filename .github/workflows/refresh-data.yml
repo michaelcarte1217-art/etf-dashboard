@@ -1,0 +1,46 @@
+# 定时刷新静态兜底数据（public/data/klines/*.json）
+#
+# 背景：看板前端直连腾讯行情接口取实时数据；当接口不可用时降级到仓库内的静态快照。
+# 本工作流在每个交易日收盘后（UTC 07:30 ≈ 北京时间 15:30）重新抓取一次并自动提交，
+# 让兜底数据保持较新。无需任何 Secrets。
+#
+# 注意：GitHub Actions 的 schedule 在高峰时段可能延迟数分钟到半小时，属正常现象；
+# 也可以在 Actions 页面手动 "Run workflow" 立即执行。
+
+name: Refresh Fallback Data
+
+on:
+  schedule:
+    - cron: "30 7 * * 1-5" # UTC 07:30 = 北京时间 15:30，仅工作日
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch klines from Tencent
+        run: python scripts/fetch_klines.py
+
+      - name: Validate holdings file
+        run: python scripts/validate_holdings.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data/klines
+          if git diff --quiet --cached; then
+            echo "数据无变化，跳过提交"
+          else
+            git commit -m "chore: refresh fallback kline data"
+            git push
+          fi

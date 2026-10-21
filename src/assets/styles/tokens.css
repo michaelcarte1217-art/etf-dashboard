@@ -1,0 +1,51 @@
+/* 深色金融看板设计令牌：A 股惯例红涨绿跌 */
+:root {
+  /* 背景层次 */
+  --bg: #0b0f16;
+  --surface: #121826;
+  --surface-2: #161e2e;
+  --line: rgba(148, 163, 184, 0.12);
+  --line-strong: rgba(148, 163, 184, 0.22);
+
+  /* 文字 */
+  --text: #e6eaf2;
+  --text-2: #8a94a6;
+  --text-3: #5d6779;
+
+  /* 涨跌：A 股红涨绿跌 */
+  --up: #f0425a;
+  --up-soft: rgba(240, 66, 90, 0.12);
+  --down: #0bbf7a;
+  --down-soft: rgba(11, 191, 122, 0.12);
+  --flat: #8a94a6;
+
+  /* 主题色 */
+  --accent: #4c8dff;
+  --accent-soft: rgba(76, 141, 255, 0.12);
+  --warn: #f0a742;
+
+  /* 字体 */
+  --font-sans: system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* 字号 */
+  --fs-display: clamp(1.5rem, 3vw, 2rem);
+  --fs-h2: 1.0625rem;
+  --fs-body: 0.875rem;
+  --fs-small: 0.8125rem;
+  --fs-tiny: 0.6875rem;
+
+  /* 布局 */
+  --container: 1320px;
+  --gap: 1rem;
+  --radius-s: 6px;
+  --radius-m: 10px;
+  --radius-l: 14px;
+
+  /* 动效 */
+  --dur-fast: 140ms;
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.35);
+}

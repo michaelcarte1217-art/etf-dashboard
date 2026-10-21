@@ -1,0 +1,21 @@
+{
+  "currency": "CNY",
+  "updatedAt": "2026-10-20",
+  "isDemo": true,
+  "positions": [
+    {
+      "code": "sh515880",
+      "name": "通信ETF",
+      "shares": 20000,
+      "costPrice": 0.56,
+      "tags": ["通信", "5G"]
+    },
+    {
+      "code": "sz159732",
+      "name": "消费电子ETF",
+      "shares": 8000,
+      "costPrice": 1.52,
+      "tags": ["消费电子"]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+# GitHub Pages 自动部署 + 同步构建产物到 Gitee 仓库
+#
+# 前置配置（GitHub 仓库 Settings → Secrets and variables → Actions → New repository secret）：
+#   GITEE_USERNAME   Gitee 用户名
+#   GITEE_TOKEN      Gitee 私人令牌（创建时勾选 projects 权限）
+#   GITEE_REPO       Gitee 仓库名
+#
+# 说明：Gitee Pages 静态托管服务已于 2026 年停服（官方确认已下线），
+# 因此推送到 Gitee 的 gh-pages 分支仅用于**备份构建产物 / 供他人查看代码**，
+# 不会再生成可访问的站点。正式站点请以 GitHub Pages 或其它托管服务为准。
+#
+# 本项目 vite.config.ts 使用 base: './'（相对路径），
+# 因此同一份产物部署在域名根路径或子路径（<用户名>.github.io/etf-dashboard/）均可正常访问。
+
+name: Deploy Dashboard
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - uses: actions/deploy-pages@v4
+
+      - name: Sync build output to Gitee
+        continue-on-error: true
+        run: |
+          cd dist
+          git init -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "deploy: $GITHUB_SHA"
+          git push --force "https://${{ secrets.GITEE_USERNAME }}:${{ secrets.GITEE_TOKEN }}@gitee.com/${{ secrets.GITEE_USERNAME }}/${{ secrets.GITEE_REPO }}.git" gh-pages
