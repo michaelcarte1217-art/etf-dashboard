@@ -87,6 +87,8 @@ const percentOf = (price: number, prevClose: number): number =>
 
 .table td {
   padding: 0.7rem 0.6rem;
+  text-align: left;
+  vertical-align: middle;
   border-bottom: 1px solid var(--line);
   white-space: nowrap;
 }
@@ -95,8 +97,12 @@ const percentOf = (price: number, prevClose: number): number =>
   border-bottom: none;
 }
 
-.num {
+/* 数值列右对齐；用双类选择器提升特异性，
+   否则会被 .table th 的 text-align: left 覆盖导致表头与数据错位 */
+.table th.num,
+.table td.num {
   text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .table__row {
